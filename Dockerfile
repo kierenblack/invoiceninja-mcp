@@ -7,8 +7,9 @@ WORKDIR /app
 # Copy your requirements (or just install the basics)
 RUN pip install mcp[server] fastmcp requests
 
-# Copy your server script into the container
+# Copy your server script and tools into the container
 COPY server.py .
+COPY tools/ ./tools/
 
 # Expose the port your SSE server runs on
 EXPOSE 8000
