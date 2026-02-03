@@ -8,27 +8,31 @@ def register_tools(mcp):
 
     @mcp.tool()
     def get_invoices(
-        status: Literal["paid", "unpaid", "overdue", "all"] = "all",
+        client_status: Literal["paid", "unpaid", "overdue", "all"] = "all",
+        include_archived: bool = False,
         limit: int = 10
     ) -> str:
         """
         Fetch invoices filtered by payment status.
-        Only retrieves 'active' invoices (ignores deleted/archived).
+        - client_status: Filter by payment state (paid/unpaid/overdue/all)
+        - include_archived: If True, includes archived/deleted invoices (default: False, only active)
+        - limit: Number of invoices to return
         """
         try:
-            base_url = f"{NINJA_URL}/invoices?status=active&per_page={limit}&include=client"
+            entity_status = "active" if not include_archived else "active,archived,deleted"
+            base_url = f"{NINJA_URL}/invoices?status={entity_status}&per_page={limit}&include=client"
 
-            if status != "all":
-                base_url += f"&client_status={status}"
+            if client_status != "all":
+                base_url += f"&client_status={client_status}"
 
             response = requests.get(base_url, headers=HEADERS)
             response.raise_for_status()
             invoices = response.json().get('data', [])
 
             if not invoices:
-                return f"No {status} invoices found."
+                return f"No {client_status} invoices found."
 
-            output = [f"--- Found {len(invoices)} {status} invoices ---"]
+            output = [f"--- Found {len(invoices)} {client_status} invoices ---"]
             for inv in invoices:
                 client = inv.get('client', {}).get('display_name', 'N/A')
                 num = inv.get('number')

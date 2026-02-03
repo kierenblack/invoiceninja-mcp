@@ -11,17 +11,19 @@ def register_tools(mcp):
     def get_tasks(
         client_id: str = None,
         project_id: str = None,
-        status: str = "all",
+        include_archived: bool = False,
         limit: int = 20
     ) -> str:
         """
         Fetch tasks with optional filters.
         - client_id: Filter by client
         - project_id: Filter by project
-        - status: 'all', 'running', or 'invoiced'
+        - include_archived: If True, includes archived/deleted tasks (default: False, only active)
+        - limit: Number of tasks to return
         """
         try:
-            url = f"{NINJA_URL}/tasks?status=active&per_page={limit}&include=client,project"
+            entity_status = "active" if not include_archived else "active,archived,deleted"
+            url = f"{NINJA_URL}/tasks?status={entity_status}&per_page={limit}&include=client,project"
 
             if client_id:
                 url += f"&client_id={client_id}"

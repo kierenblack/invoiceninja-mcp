@@ -6,13 +6,21 @@ def register_tools(mcp):
     """Register all project-related tools with the MCP server."""
 
     @mcp.tool()
-    def get_projects(client_id: str = None, limit: int = 20) -> str:
+    def get_projects(
+        client_id: str = None,
+        include_archived: bool = False,
+        limit: int = 20
+    ) -> str:
         """
         Fetch projects, optionally filtered by client.
+        - client_id: Filter by client
+        - include_archived: If True, includes archived/deleted projects (default: False, only active)
+        - limit: Number of projects to return
         Returns project name, client, budgeted hours, and current hours logged.
         """
         try:
-            url = f"{NINJA_URL}/projects?status=active&per_page={limit}&include=client"
+            entity_status = "active" if not include_archived else "active,archived,deleted"
+            url = f"{NINJA_URL}/projects?status={entity_status}&per_page={limit}&include=client"
             if client_id:
                 url += f"&client_id={client_id}"
 
