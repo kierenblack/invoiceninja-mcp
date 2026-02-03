@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:api-docs.invoicing.co)",
+      "WebFetch(domain:invoiceninja.github.io)",
+      "WebFetch(domain:forum.invoiceninja.com)",
+      "WebFetch(domain:github.com)"
+    ]
+  }
+}

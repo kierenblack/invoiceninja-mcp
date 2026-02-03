@@ -1,0 +1,24 @@
+services:
+  invoice-mcp:
+    build: .
+    restart: always
+    env_file:
+      - .env
+    ports:
+      - "8000:8000"
+    # We don't even need to expose ports to the public!
+    # n8n can talk to this internally.
+  google-search:
+    image: node:20-slim
+    restart: always
+    env_file:
+      - .env
+    # This command:
+    # 1. Installs the official Brave MCP server and the SSE wrapper
+    # 2. Runs the Brave server through the wrapper so it stays open for n8n
+    command: >
+      npx -y supergateway 
+      --stdio "npx -y @modelcontextprotocol/server-brave-search" 
+      --port 8000
+    ports:
+      - "8001:8000"
