@@ -9,7 +9,7 @@ def register_tools(mcp):
     def get_clients(limit: int = 10) -> str:
         """Fetch a list of clients with their balances."""
         try:
-            url = f"{NINJA_URL}/clients?per_page={limit}"
+            url = f"{NINJA_URL}/clients?per_page={limit}&status=active"
             response = requests.get(url, headers=HEADERS)
             response.raise_for_status()
             clients = response.json().get('data', [])
@@ -29,7 +29,7 @@ def register_tools(mcp):
     def get_client_details(client_name: str) -> str:
         """Search for a specific client and return their balance and contact info."""
         try:
-            url = f"{NINJA_URL}/clients?name={client_name}"
+            url = f"{NINJA_URL}/clients?name={client_name}&status=active"
             response = requests.get(url, headers=HEADERS)
             response.raise_for_status()
             clients = response.json().get('data', [])
