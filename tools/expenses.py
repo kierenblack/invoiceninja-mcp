@@ -1,4 +1,5 @@
 import requests
+from typing import Optional
 from .config import NINJA_URL, HEADERS
 
 
@@ -29,9 +30,9 @@ def register_tools(mcp):
 
     @mcp.tool()
     def get_expenses(
-        client_id: str = None,
-        vendor_id: str = None,
-        category_id: str = None,
+        client_id: Optional[str] = None,
+        vendor_id: Optional[str] = None,
+        category_id: Optional[str] = None,
         limit: int = 20
     ) -> str:
         """
@@ -114,9 +115,9 @@ def register_tools(mcp):
     def create_expense(
         amount: float,
         date: str,
-        category_id: str = None,
-        vendor_id: str = None,
-        client_id: str = None,
+        category_id: Optional[str] = None,
+        vendor_id: Optional[str] = None,
+        client_id: Optional[str] = None,
         public_notes: str = "",
         private_notes: str = "",
         should_be_invoiced: bool = False

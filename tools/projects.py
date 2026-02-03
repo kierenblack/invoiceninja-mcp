@@ -1,4 +1,5 @@
 import requests
+from typing import Optional
 from .config import NINJA_URL, HEADERS
 
 
@@ -7,7 +8,7 @@ def register_tools(mcp):
 
     @mcp.tool()
     def get_projects(
-        client_id: str = None,
+        client_id: Optional[str] = None,
         include_archived: bool = False,
         limit: int = 20
     ) -> str:
@@ -128,11 +129,11 @@ def register_tools(mcp):
     @mcp.tool()
     def update_project(
         project_id: str,
-        name: str = None,
-        budgeted_hours: float = None,
-        task_rate: float = None,
-        due_date: str = None,
-        notes: str = None
+        name: Optional[str] = None,
+        budgeted_hours: Optional[float] = None,
+        task_rate: Optional[float] = None,
+        due_date: Optional[str] = None,
+        notes: Optional[str] = None
     ) -> str:
         """Update an existing project's details."""
         try:

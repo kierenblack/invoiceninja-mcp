@@ -1,6 +1,7 @@
 import requests
 import json
 import time
+from typing import Optional
 from .config import NINJA_URL, HEADERS
 
 
@@ -9,8 +10,8 @@ def register_tools(mcp):
 
     @mcp.tool()
     def get_tasks(
-        client_id: str = None,
-        project_id: str = None,
+        client_id: Optional[str] = None,
+        project_id: Optional[str] = None,
         include_archived: bool = False,
         limit: int = 20
     ) -> str:
@@ -139,8 +140,8 @@ def register_tools(mcp):
     @mcp.tool()
     def create_task(
         description: str,
-        client_id: str = None,
-        project_id: str = None,
+        client_id: Optional[str] = None,
+        project_id: Optional[str] = None,
         rate: float = 0
     ) -> str:
         """
@@ -295,8 +296,8 @@ def register_tools(mcp):
 
     @mcp.tool()
     def get_billable_hours(
-        client_id: str = None,
-        project_id: str = None
+        client_id: Optional[str] = None,
+        project_id: Optional[str] = None
     ) -> str:
         """
         Get summary of unbilled hours across tasks.

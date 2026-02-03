@@ -1,5 +1,5 @@
 import requests
-from typing import Literal
+from typing import Literal, Optional
 from .config import NINJA_URL, HEADERS
 
 
@@ -8,7 +8,7 @@ def register_tools(mcp):
 
     @mcp.tool()
     def get_payments(
-        client_id: str = None,
+        client_id: Optional[str] = None,
         status: Literal["all", "pending", "completed", "refunded"] = "all",
         limit: int = 20
     ) -> str:

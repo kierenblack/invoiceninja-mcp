@@ -1,4 +1,5 @@
 import requests
+from typing import Optional
 from .config import NINJA_URL, HEADERS
 
 
@@ -48,14 +49,14 @@ def register_tools(mcp):
     @mcp.tool()
     def create_client(
         name: str,
-        email: str = None,
-        first_name: str = None,
-        last_name: str = None,
-        phone: str = None,
-        website: str = None,
-        address1: str = None,
-        city: str = None,
-        postal_code: str = None
+        email: Optional[str] = None,
+        first_name: Optional[str] = None,
+        last_name: Optional[str] = None,
+        phone: Optional[str] = None,
+        website: Optional[str] = None,
+        address1: Optional[str] = None,
+        city: Optional[str] = None,
+        postal_code: Optional[str] = None
     ) -> str:
         """Create a new client with full company and contact details."""
         url = f"{NINJA_URL}/clients"
