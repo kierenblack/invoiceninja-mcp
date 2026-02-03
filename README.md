@@ -31,7 +31,7 @@ A Model Context Protocol (MCP) server that exposes Invoice Ninja v5 API endpoint
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/invoiceninja-mcp.git
+git clone https://github.com/kierenblack/invoiceninja-mcp.git
 cd invoiceninja-mcp
 
 # Create virtual environment
