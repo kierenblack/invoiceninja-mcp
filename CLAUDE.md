@@ -43,14 +43,15 @@ invoiceninja/
 │   ├── __init__.py
 │   ├── config.py          # Shared NINJA_URL, NINJA_TOKEN, HEADERS
 │   ├── clients.py         # get_clients, get_client_details, create_client
-│   ├── invoices.py        # get_invoices, get_invoice_summary, create_invoice, send_reminder
+│   ├── invoices.py        # get_invoices(client_status, include_archived), get_invoice_summary, create_invoice, send_reminder
 │   ├── products.py        # get_products
 │   ├── system.py          # get_system_summary, ping
-│   ├── projects.py        # get_projects, get_project_details, create_project, update_project
-│   ├── tasks.py           # get_tasks, get_task_details, create_task, start_task, stop_task, log_time, get_billable_hours
+│   ├── projects.py        # get_projects(include_archived), get_project_details, create_project, update_project, get_project_summary
+│   ├── tasks.py           # get_tasks(include_archived), get_task_details, create_task, start_task, stop_task, log_time, get_billable_hours
 │   ├── payments.py        # get_payments, get_payment_details, record_payment, apply_payment_to_invoice
 │   ├── expenses.py        # get_expenses, get_expense_details, create_expense, get_expense_categories, get_expense_summary
-│   └── reports.py         # get_outstanding_by_client, get_overdue_aging, get_revenue_by_client, get_profitability_summary, get_business_dashboard
+│   ├── reports.py         # get_outstanding_by_client, get_overdue_aging, get_revenue_by_client(date filter), get_revenue_report(date filter), get_profitability_summary, get_business_dashboard
+│   └── documents.py       # get_documents, get_document_details, search_documents
 ├── Dockerfile
 ├── docker-compose.yml
 ├── .env                   # API tokens (gitignored)
@@ -68,12 +69,18 @@ Each tool module exports a `register_tools(mcp)` function that registers its too
 
 ## Invoice Ninja API Conventions
 
-- `status=active` query param excludes deleted/archived records
-- `client_status` param filters by payment state (paid/unpaid/overdue)
+- `status` param filters by entity state: `active`, `archived`, `deleted` (comma-separated)
+- `client_status` param filters invoices by payment state: `paid`, `unpaid`, `overdue`
 - `include=client,project` embeds related data in responses
 - Bulk actions use `POST /{entity}/bulk`
 - All API calls use `X-Api-Token` header authentication
 - All entity IDs are hashed strings (not integers)
+
+## Default Behavior
+
+- All list tools default to showing only **active** records (not archived/deleted)
+- Use `include_archived=True` parameter to include archived/deleted records
+- Clients module always shows only active clients (no archive option)
 
 ## Task Time Tracking
 
